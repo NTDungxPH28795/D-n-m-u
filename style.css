@@ -1,0 +1,52 @@
+ *{
+    box-sizing: border-box;
+ }
+ .boxcenter{
+    width: 70%;
+    margin: 0 auto;
+ }
+ .row{
+    float: left;
+    width: 100%;
+ }
+ .mb{
+    margin-bottom: 10px;
+ }
+ .mr{
+    margin-right: 2%;
+ }
+ .demo{
+    background-color: antiquewhite;
+    min-height: 100px;
+ }
+ .header{
+    background-color: aquamarine;
+    border: 1px solid #090;
+    font-size: 1vw;
+    color: blue;
+    border-radius: 5px;
+ }
+ .footer{
+    background-color: aquamarine;
+    border: 1px solid #090;
+    font-size: 1.8vw;
+    color: blue;
+    border-radius: 5px;
+    padding: 20px;
+ }
+ .header h1{
+    margin: 10px 30px;
+ }
+ .menu{
+    background-color: black;
+    color: #ccc;
+    border-radius: 5px;
+ }
+ .boxtrai{
+    float: left;
+    width: 24%;
+ }
+ .boxtrai{
+    float: left;
+    width: 74%;
+ }
