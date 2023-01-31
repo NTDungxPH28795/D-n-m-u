@@ -77,14 +77,16 @@
    border-left: 1px #ccc solid;
    border-right: 1px #ccc solid;
    border-bottom: 1px #ccc solid;
-   min-height: 200px;
+   background-color: #eee;
  }
  .boxfooter{
    padding: 10px;
    background-color: #eee;
    border-bottom-left-radius: 5px;
    border-bottom-right-radius: 5px;
-   border: 1px #ccc solid;
+   border-left: 1px #ccc solid;
+   border-right: 1px #ccc solid;
+   border-bottom: 1px #ccc solid;
  }
  .banner{
    min-height: 300px;
@@ -157,4 +159,28 @@
 .fromtaikhoan li a:hover{
    color: #590;
    text-decoration: underline;
+}
+.menudoc ul{
+  margin: 0;
+  padding: 0;
+  list-style-type: none;
+}
+.menudoc ul li{
+  padding: 10px 20px;
+  background-color: white;
+  border-bottom: 1px #ccc solid;
+}
+.menudoc ul li a{
+  color: #666;
+  text-decoration: none
+}
+.menudoc ul li:hover{
+  background-color: #ccc;
+}
+.searbox input[type="text"]{
+  width: 100%;
+  padding: 5px 10px;
+  background-color: #fff;
+  border: 1px solid #ccc;
+  border-radius: 5px;
 }
