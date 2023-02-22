@@ -83,7 +83,7 @@
         <div class="main">
             <div class="header-main-top">
                 <div class="header-wellcome">
-                    <p>Hi Laxus</p>
+                    <p>Hi Dungx</p>
                     <h3>Wellcome Back!</h3>
                 </div>
                 <!-- <form class="header-search">
