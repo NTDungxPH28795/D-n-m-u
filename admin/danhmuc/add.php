@@ -6,11 +6,11 @@
         Mã Loại
         <input type="text" name="maloai" disabled>
         Tên Loại
-        <input type="text" name="tenloai">
+        <input type="text" name="tenloai" style="color: #000">
             <div class="row-btn">
-                <input type="submit" name="themmoi" value="Thêm Mới">
-                <input type="reset" value="Nhập Lại">
-                <a href="index.php?act=listdm"><input type="button" value="Danh Sách"></a>
+                <input type="submit" name="themmoi" value="Thêm Mới" >
+                <input type="reset" value="Nhập Lại" style="color: #000">
+                <a href="index.php?act=listdm"><input type="button" value="Danh Sách" style="color: #000"></a>
             </div>
             <?php
                 if(isset($thongbao)&&($thongbao!="")) echo $thongbao;

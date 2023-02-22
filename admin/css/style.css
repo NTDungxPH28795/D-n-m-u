@@ -137,7 +137,7 @@ select{
     border-radius: 12px;
 }
 
-input[type="submit"]{
+input[type="submit"], input[type="reset"]{
     color: #fff;
     background-color: #000;
     border: 1px solid #fff;
