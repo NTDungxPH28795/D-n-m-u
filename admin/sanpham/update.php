@@ -1,51 +1,61 @@
-<div class="admin-header">
-    SỬA SẢN PHẨM
-</div>
-
-<form class="form-loaihang" action="index.php?act=updatesanpham&id=<?= $sp['id'] ?>" method="POST">
-    <div class="form-loaihang-box">
-        <div class="form-loaihang-text">Mã sản phẩm</div>
-        <input type="text" class="form-loaihang-input" disabled placeholder="Mã tự tăng" value="<?= $sp['id'] ?>">
+<?php
+    if(is_array($sanpham)){
+        extract($sanpham);
+    }
+    $hinhpath="../upload/".$img;
+    if(is_file($hinhpath)){
+        $hinh="<img src='".$hinhpath."' height='50'>";
+    }else{
+        $hinh="null";
+    }
+?>
+<div class="row">
+    <div class="row-title">
+        <h2>CẬP NHẬT SẢN PHẨM</h2>
     </div>
-    <div class="form-loaihang-box">
-        <div class="form-loaihang-text">Tên sản phẩm</div>
-        <input type="text" name="tensanpham" class="form-loaihang-input" value="<?= $sp['name'] ?>">
-    </div>
-    <div class="form-loaihang-box">
-        <div class="form-loaihang-text">Giá sản phẩm</div>
-        <input type="number" name="giasanpham" class="form-loaihang-input" min="0" value="<?= $sp['price'] ?>">
-    </div>
-    <!-- <div class="form-loaihang-box">
-        <div class="form-loaihang-text">Ảnh sản phẩm</div>
-        <input type="file" name="anhsanpham" class="form-loaihang-input">
-    </div> -->
-    <div class="form-loaihang-box">
-        <div class="form-loaihang-text">Mô tả sản phẩm</div>
-        <textarea name="motasanpham" id="" cols="30" rows="10" ><?= $sp['mota'] ?></textarea>
-    </div>
-    <div class="form-loaihang-box">
-        <div class="form-loaihang-text">Lượt xem sản phẩm</div>
-        <input type="number" name="luotxemsanpham" class="form-loaihang-input" min="0" value="<?= $sp['luotxem'] ?>">
-    </div>
-    <div class="form-loaihang-box">
-        <div class="form-loaihang-text">Số lượng sản phẩm</div>
-        <input type="number" name="soluongsanpham" class="form-loaihang-input" min="0" value="<?= $sp['soluong'] ?>">
-    </div>
-    <div class="form-loaihang-box">
-        <div class="form-loaihang-text">Danh mục sản phẩm</div>
-        <select name="danhmucsanpham" id="" class="form-loaihang-input " style="width: 30%;">
-            <?php foreach ($listdanhmuc as $danhmuc) : ?>
-                <?php extract($danhmuc) ?>
-                <option value="<?= $id ?>" <?php if($sp['iddm']== $id) echo "selected" ?>><?= $name ?></option>
-            <?php endforeach; ?>
+    <form class="row-form" action="index.php?act=updatesp" method="post" enctype="multipart/form-data">
+        Mã Sản Phẩm
+        <select name="iddm">
+            <option value="0" selected>Tất Cả</option>
+            <?php 
+                foreach ($listdanhmuc as $danhmuc) {
+                    extract($danhmuc);
+                    if($iddm==$id)
+                    echo '<option value="'.$id.'" selected>'.$name.'</option>';
+                    else echo '<option value="'.$id.'">'.$name.'</option>';
+                }
+            ?>
         </select>
-    </div>
-    <div class="form-loaihang-btns">
-        <input type="submit" class="form-loaihang-btn" value="Sửa" name="sua">
-        <input type="reset" class="form-loaihang-btn" value="Nhập lại">
-        <a href="index.php?act=listsanpham" class="form-loaihang-btn">Danh sách</a>
-    </div>
-</form>
-
-
+        Tên Sản Phẩm
+        <input type="text" name="tensp" value="<?=$name?>">
+        Giá
+        <input type="text" name="giasp" value="<?=$price?>">
+        Hình
+        <input type="file" name="hinh">
+        <?=$hinh?>
+        Mô Tả
+        <textarea name="mota" cols="30" rows="10"><?=$mota?></textarea>
+        <div class="table-btn">
+                <input type="hidden" name="id" value="<?=$id?>">
+                <input type="submit" name="capnhat" value="Cập Nhật">
+                <input type="reset" value="Nhập Lại">
+                <a href="index.php?act=listsp"><input type="button" value="Danh Sách"></a>
+            </div>
+            <?php
+                if(isset($thongbao)&&($thongbao!="")) echo $thongbao;
+            ?>
+    </form>
 </div>
+<style>
+    .row .row-title{
+        text-align: center;
+    }
+    .row-form{
+        display: grid;
+    }
+    .row-form>input{
+        padding: 6px 10px;
+        border-radius: 8px;
+    }
+
+</style>

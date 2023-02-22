@@ -1,25 +1,39 @@
 <div class="row">
-            <div class="row fromtitle"><h1>THÊM MỚI LOẠI HÀNG HÓA</h1></div>
-            <div class="row fromcontent">
-                <form action="index.php?act=add" method="post">
-                    <div class="row mb10">
-                        Mã loại <br>
-                        <input type="text" name="maloai" disabled>
-                    </div>
-                    <div class="row mb10">
-                        Tên loại <br>
-                        <input type="text" name="tenloai">
-                    </div>
-                    <div class="row mb10">
-                        <input type="submit" name="themmoi" value="THÊM MỚI">
-                        <input type="reset" value="NHẬP LẠI">
-                        <a href="index.php?act=listdm"><input type="button" value="DANH SÁCH"></a>
-                    </div>
-                    <?php
-                        if(isset($thongbao)&&($thongbao!=""))
-                        echo $thongbao;
-                    ?>
-                    </form>
-            </div>
-        </div>
+    <div class="row-title">
+        <h2>THÊM MỚI DANH MỤC</h2>
     </div>
+    <form class="row-form" action="index.php?act=adddm" method="post">
+        Mã Loại
+        <input type="text" name="maloai" disabled>
+        Tên Loại
+        <input type="text" name="tenloai">
+            <div class="row-btn">
+                <input type="submit" name="themmoi" value="Thêm Mới">
+                <input type="reset" value="Nhập Lại">
+                <a href="index.php?act=listdm"><input type="button" value="Danh Sách"></a>
+            </div>
+            <?php
+                if(isset($thongbao)&&($thongbao!="")) echo $thongbao;
+            ?>
+    </form>
+</div>
+<style>
+    .row .row-title{
+        text-align: center;
+    }
+    .row-form{
+        display: grid;
+    }
+    .row-form>input{
+        padding: 6px 10px;
+        border-radius: 8px;
+    }
+    .row-btn{
+        margin: 4px 0px;
+        text-align: center;
+    }
+    .row-btn input{
+        border-radius: 4px;
+        padding: 6px 10px;
+    }
+</style>

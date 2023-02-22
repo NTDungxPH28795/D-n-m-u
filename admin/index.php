@@ -1,201 +1,170 @@
 <?php
-    session_start();
-    require "header.php";
-    require "../model/pdo.php";
-    require "../model/danhmuc.php";
-    require "../model/sanpham.php";
-    require "../model/taikhoan.php";
-    require "../model/binhluan.php";
-    require "../global.php";
-    if(isset($_SESSION['user'])) {
-        if($_SESSION['user']['role'] == 0) {
-            header('Location:../index.php');
-        }
-    } else {
-        header('Location:../index.php');
-    }
-    if(isset($_GET['act'])) {
-        $act = $_GET['act'];
-        require "navbar.php";
-        switch ($act) {
+    include "../model/pdo.php";
+    include "../model/danhmuc.php";
+    include "../model/sanpham.php";
+    include "../model/taikhoan.php";
+    include "../model/binhluan.php";
+    include "header.php";
+    if(isset($_GET['act'])){
+        $act=$_GET['act'];
+        switch ($act){
             case 'adddm':
-                require "danhmuc/add.php";
-                break;
-
-            case 'listdanhmuc':
-                $listdanhmuc = list_danhmuc();
-                require "danhmuc/list.php";
-                break;
-                
-            case 'xoadanhmuc':
-                if(isset($_GET['id'])&&$_GET['id']>0) {
-                    $id = $_GET['id'];
-                    delete_danhmuc($id);
+                if(isset($_POST['themmoi'])&&($_POST['themmoi'])){
+                    $tenloai=$_POST['tenloai'];
+                    insert_danhmuc($tenloai);
+                    // $sql= "insert into danhmuc(name) values('$tenloai')";
+                    // pdo_execute($sql);
+                    $thongbao="Thêm Thành Công!";
                 }
-                header("Location:index.php?act=listdanhmuc");
+                include "danhmuc/add.php";
                 break;
-
-            case 'suadanhmuc':
-                if(isset($_GET['id'])&&$_GET['id']>0) {
-                    $id = $_GET['id'];
-                    $dm = load_danhmuc($id);
+            case 'listdm':
+                // $sql="select * from danhmuc order by id asc";
+                // $listdanhmuc= pdo_query($sql);
+                $listdanhmuc= loadall_danhmuc();
+                include "danhmuc/list.php";
+                break;
+            case 'xoadm':
+                if(isset($_GET['id'])&&($_GET['id']>0)){
+                    delete_danhmuc($_GET['id']);
+                    // $sql="delete from danhmuc where id=".$_GET['id'];
+                    // pdo_execute($sql);
                 }
-                require "danhmuc/update.php";
+                $listdanhmuc= loadall_danhmuc();
+                // $sql="select * from danhmuc order by id asc";
+                // $listdanhmuc= pdo_query($sql);
+                include "danhmuc/list.php";
                 break;
-
-            case 'updatedanhmuc':
-                if (isset($_POST['sua']) && isset($_GET['id'])) {
-                    $tenloai = $_POST['tenloai'];
-                    $maloai = $_GET['id'];
-                    update_danhmuc($maloai,$tenloai);
+            case 'suadm':
+                if(isset($_GET['id'])&&($_GET['id']>0)){
+                    $dm=loadone_danhmuc($_GET['id']);
+                    // $sql="select * from danhmuc where id=".$_GET['id'];
+                    // $dm=pdo_query_one($sql);
                 }
-                header("Location:index.php?act=listdanhmuc");
+                include "danhmuc/update.php";
                 break;
-
-            case 'xoadanhmuccheck':
-                if (isset($_GET['id'])) {
-                    $_id = $_GET['id'];
-                    delete_danhmuc_check($_id);
+            case 'updatedm':
+                if(isset($_POST['capnhat'])&&($_POST['capnhat'])){
+                    $tenloai=$_POST['tenloai'];
+                    $id=$_POST['id'];
+                    update_danhmuc($id,$tenloai);
+                    // $sql= "update danhmuc set name='".$tenloai."' where id=".$id;
+                    // pdo_execute($sql);
+                    $thongbao="Cập Nhật Thành Công!";
                 }
-                header("Location:index.php?act=listdanhmuc");
+                $listdanhmuc= loadall_danhmuc();
+                // $sql="select * from danhmuc order by id asc";
+                // $listdanhmuc= pdo_query($sql);
+                include "danhmuc/list.php";
                 break;
-
-            // controller sản phẩm
-
-            case 'addsp':
-                $listdanhmuc = get_listdanhmuc();
-                // if (isset($_POST['themmoi'])) {
-                //     $sql = "SELECT sanpham.`id` FROM sanpham ORDER BY sanpham.id DESC LIMIT 1";
-                //     $id = pdo_query_one($sql)['id'];
-                //     $tensanpham = $_POST['tensanpham'];
-                //     $giasanpham = $_POST['giasanpham'];
-                //     $motasanpham = $_POST['motasanpham'];
-                //     $danhmucsanpham = $_POST['danhmucsanpham'];
-                    
-                //     if(isset($_FILES['anhsanpham'])) {
-                //         $dir = "sanpham/img/";
-                //         $imgUpload = $_FILES['anhsanpham']['name'];
-                //         $imgFileType = pathinfo($imgUpload,PATHINFO_EXTENSION);
-                //         $imgName = ++$id.'.'.$imgFileType;
-                //         $imgLink = $dir.$imgName;
-                //         move_uploaded_file($_FILES['anhsanpham']['tmp_name'], $imgLink);
-                //     }
-                //     add_sanpham($id, $tensanpham, $giasanpham, $imgName, $motasanpham, $danhmucsanpham);
-                //     $thongbao = "Thêm thành công";
-                // }
-                require "sanpham/add.php";
-                break;
-
-                case 'listsanpham':
-                    $listsanpham = list_sanpham();
-                    require "sanpham/list.php";
-                    break;
-                
-                case 'xoasanpham':
-                    if(isset($_GET['id'])&&$_GET['id']>0) {
-                        $id = $_GET['id'];
-                        $img = get_img_sanpham($id);
-                        $img = 'sanpham/img/'.$img;
-                        if(unlink($img)) {
-                            delete_sanpham($id);
+// -------------------------------------------------------------------------------------------------------------//
+                // Sản Phẩm Nè Hihi
+                case 'addsp':
+                    if(isset($_POST['themmoi'])&&($_POST['themmoi'])){
+                        $iddm=$_POST['iddm'];
+                        $tensp=$_POST['tensp'];
+                        $giasp=$_POST['giasp'];
+                        $mota=$_POST['mota'];
+                        $hinh=$_FILES['hinh']['name'];
+                        $target_dir = "../upload/";
+                        $target_file = $target_dir . basename($_FILES["hinh"]["name"]);
+                        if (move_uploaded_file($_FILES["hinh"]["tmp_name"], $target_file)) {
+                            // echo "The file ". htmlspecialchars( basename( $_FILES["fileToUpload"]["name"])). " has been uploaded.";
+                        } else {
+                            // echo "Sorry, there was an error uploading your file.";
                         }
+                        insert_sanpham($tensp,$giasp,$hinh,$mota,$iddm);
+                        // $sql= "insert into sanpham(name) values('$tenloai')";
+                        // pdo_execute($sql);
+                        $thongbao="Thêm Thành Công!";
                     }
-                    header("Location:index.php?act=listsanpham");
+                    $listdanhmuc= loadall_danhmuc();
+                    // var_dump($listdanhmuc);
+                    include "sanpham/add.php";
                     break;
-                
-                case 'suasanpham':
-                    if(isset($_GET['id'])&&$_GET['id']>0) {
-                        $listdanhmuc = get_listdanhmuc();
-                        $id = $_GET['id'];
-                        $sp = load_sanpham($id);
+                case 'listsp':
+                    if(isset($_POST['listok'])&&($_POST['listok'])){
+                        $kyw=$_POST['kyw'];
+                        $iddm=$_POST['iddm'];
+                    }else{
+                        $kyw='';
+                        $iddm=0;
                     }
-                    require "sanpham/update.php";
+                    $listdanhmuc= loadall_danhmuc();
+                    $listsanpham= loadall_sanpham($kyw,$iddm);
+                    include "sanpham/list.php";
                     break;
-
-                case 'updatesanpham':
-                    if (isset($_POST['sua']) && isset($_GET['id'])) {
-                        $masanpham = $_GET['id'];
-                        $tensanpham = $_POST['tensanpham'];
-                        $giasanpham = $_POST['giasanpham'];
-                        $motasanpham = $_POST['motasanpham'];
-                        $luotxemsanpham = $_POST['luotxemsanpham'];
-                        $danhmucsanpham = $_POST['danhmucsanpham'];
-                        $soluongsanpham = $_POST['soluongsanpham'];
-                        update_sanpham($masanpham , $tensanpham, $giasanpham, $motasanpham, $luotxemsanpham, $danhmucsanpham,$soluongsanpham);
+                case 'xoasp':
+                    if(isset($_GET['id'])&&($_GET['id']>0)){
+                        delete_sanpham($_GET['id']);
                     }
-                    header("Location:index.php?act=listsanpham");
+                    $listsanpham= loadall_sanpham("",0);
+                    include "sanpham/list.php";
                     break;
-
-                case 'xoasanphamcheck':
-                    if (isset($_GET['id'])) {
-                        $_id = $_GET['id'];
-                        delete_sanpham_check($_id);
+                case 'suasp':
+                    if(isset($_GET['id'])&&($_GET['id']>0)){
+                        $sanpham=loadone_sanpham($_GET['id']);
                     }
-                    header("Location:index.php?act=listsanpham");
+                    $listdanhmuc= loadall_danhmuc();
+                    include "sanpham/update.php";
                     break;
-
+                case 'updatesp':
+                    if(isset($_POST['capnhat'])&&($_POST['capnhat'])){
+                        $id=$_POST['id'];
+                        $iddm=$_POST['iddm'];
+                        $tensp=$_POST['tensp'];
+                        $giasp=$_POST['giasp'];
+                        $mota=$_POST['mota'];
+                        $hinh=$_FILES['hinh']['name'];
+                        $target_dir = "../upload/";
+                        $target_file = $target_dir . basename($_FILES["hinh"]["name"]);
+                        if (move_uploaded_file($_FILES["hinh"]["tmp_name"], $target_file)) {
+                            // echo "The file ". htmlspecialchars( basename( $_FILES["fileToUpload"]["name"])). " has been uploaded.";
+                        } else {
+                            // echo "Sorry, there was an error uploading your file.";
+                        }
+                        update_sanpham($id,$iddm,$tensp,$giasp,$mota,$hinh);
+                        // $sql= "update sanpham set name='".$tenloai."' where id=".$id;
+                        // pdo_execute($sql);
+                        $thongbao="Cập Nhật Thành Công!";
+                    }
+                    $listdanhmuc= loadall_danhmuc();
+                    $listsanpham= loadall_sanpham("",0);
+                    // $sql="select * from danhmuc order by id asc";
+                    // $listdanhmuc= pdo_query($sql);
+                    include "sanpham/list.php";
+                    break;
+                // Quản lí khách hàng
                 case 'dskh':
-                    $listtk = get_listtk();
-                    require "taikhoan/list.php";
+                    $listtaikhoan= loadall_taikhoan();
+                    include "taikhoan/list.php";
                     break;
 
-                case 'xoakhachhang':
-                    $id = $_GET['id'];
-                    delete_khachhang($id);
-                    header("Location: index.php?act=dskh");
-                    require "binhluan/list.php";
-                    break;
-                
-                case 'xoakhachhangcheck':
-                    if (isset($_GET['id'])) {
-                        $_id = $_GET['id'];
-                        delete_khachhang_check($_id);
+                case 'xoatk':
+                    if(isset($_GET['id'])&&($_GET['id']>0)){
+                        delete_taikhoan($_GET['id']);
                     }
-                    header("Location:index.php?act=dskh");
+                    $listtaikhoan= loadall_taikhoan();
+                    include "taikhoan/list.php";
                     break;
-
-                case 'listbinhluan':
-                    $listbinhluan = get_list_binhluan();
-                    require "binhluan/list.php";
+                // Quản lí bình luận
+                case 'dsbl':
+                    $listbinhluan= loadall_binhluan(0);
+                    include "binhluan/list.php";
                     break;
-
-                case 'xoabinhluan':
-                    $id = $_GET['id'];
-                    delete_binhluan($id);
-                    header("Location: index.php?act=listbinhluan");
-                    require "binhluan/list.php";
-                    break;
-                
-                case 'xoabinhluancheck':
-                    if (isset($_GET['id'])) {
-                        $_id = $_GET['id'];
-                        delete_binhluan_check($_id);
+                case 'xoabl':
+                    if(isset($_GET['id'])&&($_GET['id']>0)){
+                        delete_binhluan($_GET['id']);
                     }
-                    header("Location:index.php?act=listbinhluan");
+                    $listbinhluan= loadall_binhluan(0);
+                    include "binhluan/list.php";
                     break;
-                
-                
-                case 'updaterole':
-                    if (isset($_GET['id'])) {
-                        $id = $_GET['id'];
-                        $role = $_GET['role'];
-                        update_role($id, $role);
-                    }
-                    header("Location:index.php?act=dskh");
-                    break;
-                
-                case 'thongke':
-                    require 'thongke/thongke.php';
-                    break;
-            default:
-                require "home.php";
-                break;
+        default:
+            include "home.php";
+            break;
         }
-    } else {
-        require "navbar.php";
-        require "home.php";
+    }else{
+        include "home.php";
     }
-
-
-    require "footer.php";
+    include "footer.php";
 ?>

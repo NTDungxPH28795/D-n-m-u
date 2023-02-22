@@ -5,21 +5,89 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="../css/style.css">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Public+Sans:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="../icon/themify-icons/themify-icons.css">
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
-    <script src="../js/main.js"></script>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css" integrity="sha512-+4zCK9k+qNFUR5X+cKL9EIR+ZOhtIloNl9GIKS57V1MyNsYpYcUrUeQc9vNfzsWfV28IaLL3i96P9sdNyeRssA==" crossorigin="anonymous" />
-    <title>Dự án mẫu</title>
+    <title>ADMIN TOOLS</title>
+    <link rel="shortcut icon" href="./imgs/logo_admin.jpg">
+    <link rel="stylesheet" href="./css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css" integrity="sha512-xh6O/CkQoPOWDdYTDqeRdPCVd1SpvCA9XXcUnZS2FmJNp1coAFzvtCN9BmamE+4aHK8yyUHUSCcJHgXloTyT2A==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+
 </head>
 
 <body>
     <div class="container">
-        <header>
-            QUẢN TRỊ WEBSITE
-        </header>
+        <div class="admin">
+            <div class="user">
+                <div class="action-btn-user">
+                    <img src="./imgs/logo_admin.jpg" alt="">
+                    <div class="action-btn-name-user">
+                        <a href="#">ADMIN</a>
+                        <!-- <a href="#">V.I.P</a> -->
+                    </div>
+                </div>
+            </div>
+            <div class="action">
+                <div class="action-btn index">
+                    <i class="fa-solid fa-house-laptop"></i>
+                    <div class="action-btn-name">
+                        <a href="../view/index.php">Trang Chủ</a>
+                    </div>
+                </div>
+                <div class="action-btn">
+                    <i class="fa-solid fa-list"></i>
+                    <div class="action-btn-name">
+                        <a href="index.php?act=listdm">Danh Mục</a>
+                    </div>
+                </div>
+                <div class="action-btn">
+                    <i class="fa-regular fa-folder"></i>
+                    <div class="action-btn-name">
+                        <a href="index.php?act=listsp">Sản Phẩm</a>
+                    </div>
+                </div>
+                <div class="action-btn">
+                    <i class="fa-regular fa-address-book"></i>
+                    <div class="action-btn-name">
+                        <a href="index.php?act=dskh">Khách Hàng</a>
+                    </div>
+                </div>
+                <div class="action-btn">
+                    <i class="fa-solid fa-chart-line"></i>
+                    <div class="action-btn-name">
+                        <a href="index.php?act=dsbl">Bình Luận</a>
+                    </div>
+                </div>
+                <div class="action-btn">
+                    <i class="fa-solid fa-scale-unbalanced"></i>
+                    <div class="action-btn-name">
+                        <a href="index.php?act=thongke">Thống Kê</a>
+                    </div>
+                </div>
+            </div>
+            <!-- User -->
 
-        <div id="toast"></div>
+            <!-- User Action -->
+            <!-- <div class="user-action">
+            <div class="action-btn btn_user">
+                    <i class="fa-solid fa-address-card"></i>
+                    <div class="action-btn-name">
+                        <a href="#">Thông Tin</a>
+                    </div>
+                </div>
+                <div class="action-btn btn_user">
+                    <i class="fa-solid fa-arrow-left"></i>
+                    <div class="action-btn-name">
+                        <a href="index.php?act=signout">Đăng Xuất</a>
+                    </div>
+                </div>
+            </div> -->
+        </div>
+        <div class="main">
+            <div class="header-main-top">
+                <div class="header-wellcome">
+                    <p>Hi Laxus</p>
+                    <h3>Wellcome Back!</h3>
+                </div>
+                <!-- <form class="header-search">
+                    <input type="text" required placeholder="Tìm kiếm..">
+                </form> -->
+            </div>
+            <div style="min-height: 350px;margin-top: 20px;border-radius: 12px;padding: 8px;border: .2px solid #fff;background-color: #242731;box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);" class="header-main">

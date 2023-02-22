@@ -1,176 +1,72 @@
-<main>
-    <div class="admin-header">
-        QUẢN LÝ LOẠI HÀNG
+<div class="row">
+    <div class="row-title">
+        <h2>Danh Sách Loại Hàng</h2>
     </div>
-
-    <table class="list-loaihang-table" style="text-align: center;">
+    <form action="index.php?act=listsp" method="post">
+        <input type="text" name="kyw" style="color: #000 !important;">
+        <select name="iddm">
+            <option value="0" selected>Tất Cả</option>
+            <?php 
+                foreach ($listdanhmuc as $danhmuc) {
+                    extract($danhmuc);
+                    echo '<option value="'.$id.'">'.$name.'</option>';
+                }
+            ?>
+        </select>
+        <input type="submit" name="listok" value="Tìm Kiếm">
+    </form>
+    <table>
         <thead>
-            <tr class="list-loaihang-table_text-center">
-                <th style="width: 5%;"></th>
-                <th>MÃ </th>
-                <th>TÊN </th>
-                <th>GIÁ </th>
-                <th>ẢNH </th>
-                <th>MÔ TẢ </th>
-                <th>LƯỢT XEM </th>
-                <th>DANH MỤC </th>
+            <tr>
                 <th></th>
+                <th>Mã Sản Phẩm</th>
+                <th>Tên Sản Phẩm</th>
+                <th>Hình</th>
+                <th>Giá</th>
+                <th>Lượt Xem</th>
+                <th>Action</th>
             </tr>
         </thead>
-
         <tbody>
-            <?php foreach ($listsanpham as $sanpham) : ?>
-                <?php
-                extract($sanpham);
-                $linkImg = explode(', ', $img);
+            <?php
+                // include "../model/pdo.php";
+                foreach ($listsanpham as $sanpham){
+                    extract($sanpham);
+                    $suasp="index.php?act=suasp&id=".$id; 
+                    $xoasp="index.php?act=xoasp&id=".$id;
+                    $hinhpath="../upload/".$img;
+                    if(is_file($hinhpath)){
+                        $hinh="<img src='".$hinhpath."' height='50'>";
+                    }else{
+                        $hinh="null";
+                    }
+                    echo'<tr>
+                            <td style="text-align: center;"><input type="checkbox" name="" id=""></td>
+                            <td>'.$id.'</td>
+                            <td>'.$name.'</td>
+                            <td>'.$hinh.'</td>
+                            <td>'.$price.'</td>
+                            <td>'.$luotxem.'</td>
+                            <td style="text-align: center;">
+                                <a href="'.$suasp.'">
+                                    <input type="button" class="edit" value="Sửa">
+                                </a>
+                                <a href="'.$xoasp.'">
+                                    <input type="button" class="delete" value="Xóa">
+                                </a>
+                            </td>
+                        </tr>';
+                }
+            ?>
 
-                ?>
-                <tr onclick="sanphamCheck(this)">
-                    <td style="position: relative;"><input type="checkbox" onclick="event.stopPropagation()"></td>
-                    <td><?= $id ?></td>
-                    <td><?= $name ?></td>
-                    <td><?= $price ?></td>
-                    <td>
-                        <div class="list-loaihang-table_box-img">
-                            <div class="list-loaihang-table_img" style="background-image: url(sanpham/img/<?= $id . "/" . $linkImg[0] ?>);"></div>
-                        </div>
-                    </td>
-                    <!-- <td><?= $mota ?></td> -->
-                    <td><?= $luotxem ?></td>
-                    <td><?= $namedm ?></td>
-                    <td>
-                        <div class="form-loaihang-btns">
-                            <div class="form-loaihang-btn" onclick="sanphamUpdate(<?= $id ?>)">Sửa</div>
-                            <div class="form-loaihang-btn" onclick="sanphamDelete(<?= $id ?>)">Xoá</div>
-                            <div class="form-loaihang-btn" onclick="inputSoLuong(this)">Thêm số lượng</div>
-                            <input id="themluong" type="number" min='0' step="1" value="0" style="" onkeypress="nhapsoluong(event, this, <?= $id ?>)" onclick="event.stopPropagation()">
-                        </div>
-                    </td>
-                </tr>
-            <?php endforeach; ?>
         </tbody>
     </table>
-    <div class="form-loaihang-btns">
-        <div class="form-loaihang-btn" onclick="sanphamCheckAll()">Chọn tất cả</div>
-        <div class="form-loaihang-btn" onclick="sanphamUnCheckAll()">Bỏ chọn tất cả</div>
-        <div class="form-loaihang-btn" onclick="sanphamDeleteCheck()">Xoá các mục chọn</div>
-        <a href="index.php?act=addsp" class="form-loaihang-btn">Nhập thêm</a>
+    <div class="table-btn">
+        <input type="button" value="Chọn Tất Cả">
+        <input type="button" value="Bỏ Chọn Tất Cả">
+        <input type="button" value="Xóa Các Mục Đã Chọn">
+        <a href="index.php?act=addsp"><input type="button" value="Nhập Thêm"></a>
+
     </div>
-    </div>
-    <script>
-        // var a = document.querySelector('a')
 
-        function sanphamDelete(id) {
-            var submit = confirm("Bạn có muốn xoá danh mục này ?")
-            if (submit) window.location = 'index.php?act=xoasanpham&id=' + id
-            event.stopPropagation()
-        }
-
-        function inputSoLuong(e) {
-            var input = e.parentElement.querySelector('#themluong')
-            input.style.display = "block"
-            e.replaceWith(input)
-            event.stopPropagation()
-        }
-
-        function nhapsoluong(e, x, id) {
-            if (e.keyCode == 13) {
-                var soluong = Number(x.value);
-                if (soluong < 0) {
-                    toast({
-                        title: "Thất bại!",
-                        message: "Bạn phải nhập số lớn hơn 0",
-                        type: "error",
-                        duration: 5000
-                    });
-                } else {
-                    var form_data = new FormData();
-                    form_data.append('id', id)
-                    form_data.append('soluong', soluong)
-                    $.ajax({
-                        url: "api.php?act=nhapluong", //Server api to receive the file
-                        type: "POST",
-                        cache: false,
-                        contentType: false,
-                        processData: false,
-                        data: form_data,
-                        success: function(res) {
-                            var soluongSP = JSON.parse(res)
-                            toast({
-                                title: "Thành công!",
-                                message: `Thêm thành công số lượng của sản phẩm giờ là <h4>${soluongSP}</h4>`,
-                                type: "success",
-                                duration: 5000
-                            });
-                            x.style.display = "none"
-                            x.value = 0
-                            var btn = document.createElement('div')
-                            btn.innerHTML = "Thêm số lượng"
-                            btn.classList.add('form-loaihang-btn')
-                            btn.addEventListener('click', function() {
-                                var input = this.parentElement.querySelector('#themluong')
-                                input.style.display = "block"
-                                this.replaceWith(input)
-                                event.stopPropagation()
-                            })
-                            x.parentElement.appendChild(btn)
-                        }
-                    });
-                }
-            }
-        }
-
-        function sanphamUpdate(id) {
-            window.location = 'index.php?act=suasanpham&id=' + id
-            event.stopPropagation()
-        }
-
-        function sanphamCheck(x) {
-            var checkBox = x.querySelector("input")
-            if (checkBox.checked) {
-                checkBox.checked = false
-            } else {
-                checkBox.checked = true
-            }
-        }
-
-        function sanphamCheckAll() {
-            var rows = document.querySelector("tbody").querySelectorAll("tr")
-            rows.forEach((row) => {
-                var checkBox = row.querySelector("td").querySelector("input")
-                checkBox.checked = true
-            })
-        }
-
-        function sanphamUnCheckAll() {
-            var rows = document.querySelector("tbody").querySelectorAll("tr")
-            rows.forEach((row) => {
-                var checkBox = row.querySelector("td").querySelector("input")
-                checkBox.checked = false
-            })
-        }
-
-        function sanphamDeleteCheck() {
-            if (confirm("Bạn có muốn xoá các mục đã chọn ?")) {
-                var _id = getIdCheck()
-                var idQry = _id.map(function(el, idx) {
-                    return 'id[' + idx + ']=' + el;
-                }).join('&');
-                window.location = 'index.php?act=xoasanphamcheck&' + idQry;
-            }
-        }
-
-        function getIdCheck() {
-            var _id = []
-            var rows = document.querySelector("tbody").querySelectorAll("tr")
-            rows.forEach((row) => {
-                var checkBox = row.querySelector("td").querySelector("input")
-                if (checkBox.checked) {
-                    var id = Number(row.firstElementChild.nextElementSibling.innerHTML)
-                    _id.push(id)
-                }
-            })
-            return _id
-        }
-    </script>
-</main>
+</div>

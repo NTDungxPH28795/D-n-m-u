@@ -1,105 +1,108 @@
-<main>
-    <div class="admin-header">
-        QUẢN LÝ TÀI KHOẢN
+<div class="row">
+    <div class="row-title">
+        <h2>Danh Sách Loại Hàng</h2>
     </div>
-    
-    <table class="list-loaihang-table" style="text-align: center;">
+    <form action="index.php?act=listsp" method="post">
+        <input type="text" name="kyw" style="color: #000 !important;">
+        <select name="iddm">
+            <option value="0" selected>Tất Cả</option>
+            <?php 
+                foreach ($listdanhmuc as $danhmuc) {
+                    extract($danhmuc);
+                    echo '<option value="'.$id.'">'.$name.'</option>';
+                }
+            ?>
+        </select>
+        <input type="submit" name="listok" value="Tìm Kiếm">
+    </form>
+    <table>
         <thead>
-            <tr class="list-loaihang-table_text-center">
-                <th style="width: 5%;"></th>
-                <th>Mã Bình Luận </th>
-                <th>Tên</th>
-                <th>Nội Dung Bình Luận</th>
-                <th>Sản phẩm</th>
-                <th>Ngày</th>
+            <tr>
                 <th></th>
+                <th>ID</th>
+                <th>Nội Dung Bình Luận</th>
+                <th>IDuser</th>
+                <th>IDpro</th>
+                <th>Ngày Bình Luận</th>
+                <th>Action</th>
             </tr>
         </thead>
-    
         <tbody>
-            <?php foreach ($listbinhluan as $binhluan) : ?>
-                <?php extract($binhluan) ?>
-                <tr onclick="Check(this)">
-                    <td style="position: relative;"><input type="checkbox" onclick="event.stopPropagation()"></td>
-                    <td><?= $id ?></td>
-                    <td><?= $user ?></td>
-                    <td><?= $noidung ?></td>
-                    <td><?= $pro ?></td>
-                    <td><?= $ngaybinhluan ?></td>
-                    <td>
-                        <div class="form-loaihang-btns">
-                            <!-- <div class="form-loaihang-btn" onclick="Update(<?= $id ?>)">Sửa</div> -->
-                            <div class="form-loaihang-btn" onclick="Delete(<?= $id ?>)">Xoá</div>
-                        </div>
-                    </td>
-                </tr>
-            <?php endforeach; ?>
+            <?php
+                // include "../model/pdo.php";
+                foreach ($listbinhluan as $binhluan){
+                    extract($binhluan);
+                    $xoabl="index.php?act=xoabl&id=".$id;
+                    echo'<tr>
+                            <td style="text-align: center;"><input type="checkbox" name="" id=""></td>
+                            <td>'.$id.'</td>
+                            <td>'.$noidung.'</td>
+                            <td>'.$iduser.'</td>
+                            <td>'.$idpro.'</td>
+                            <td>'.$ngaybinhluan.'</td>
+                            <td style="text-align: center;">
+                                <a href="'.$xoabl.'">
+                                    <input type="button" class="delete" value="Xóa">
+                                </a>
+                            </td>
+                        </tr>';
+                }
+            ?>
+
         </tbody>
     </table>
-    <div class="form-loaihang-btns">
-        <div class="form-loaihang-btn" onclick="CheckAll()">Chọn tất cả</div>
-        <div class="form-loaihang-btn" onclick="UnCheckAll()">Bỏ chọn tất cả</div>
-        <div class="form-loaihang-btn" onclick="DeleteCheck()">Xoá các mục chọn</div>
+    <div class="table-btn">
+        <input type="button" value="Chọn Tất Cả">
+        <input type="button" value="Bỏ Chọn Tất Cả">
+        <input type="button" value="Xóa Các Mục Đã Chọn">
     </div>
-    </div>
-    <script>
-        function Delete(id) {
-            var submit = confirm("Bạn có muốn xoá danh mục này ?")
-            if (submit) window.location = 'index.php?act=xoabinhluan&id=' + id
-            event.stopPropagation()
+    <style>
+        /* Bảng Danh Sách Danh Muc */
+        table{
+            margin-top: 20px;
+            width: 100%;
         }
-    
-        function Update(id) {
-            window.location = 'index.php?act=suasanpham&id=' + id
-            event.stopPropagation()
+
+        table thead tr th{
+            background-color: #fff;
+            color: #000;
+            text-align: center;
         }
-    
-        function Check(x) {
-            var checkBox = x.querySelector("input")
-            if (checkBox.checked) {
-                checkBox.checked = false
-            } else {
-                checkBox.checked = true
-            }
+        table, th, td {
+            border: 1px solid #fff;
+            border-collapse: collapse;
+            padding: 8px 20px;
         }
-    
-        function CheckAll() {
-            var rows = document.querySelector("tbody").querySelectorAll("tr")
-            rows.forEach((row) => {
-                var checkBox = row.querySelector("td").querySelector("input")
-                checkBox.checked = true
-            })
+
+        input{
+            border: none;
+            border-radius: 8px;
+            padding: 8px 25px;
+            margin: 0px 10px;
+            color: #fff;
+            opacity: .8;
         }
-    
-        function UnCheckAll() {
-            var rows = document.querySelector("tbody").querySelectorAll("tr")
-            rows.forEach((row) => {
-                var checkBox = row.querySelector("td").querySelector("input")
-                checkBox.checked = false
-            })
+
+        input:hover{
+            opacity: unset;
+            cursor: pointer;
         }
-    
-        function DeleteCheck() {
-            if(confirm("Bạn có muốn xoá các mục đã chọn ?")) {
-                var _id = getIdCheck()
-                var idQry = _id.map(function(el, idx) {
-                    return 'id[' + idx + ']=' + el;
-                }).join('&');
-                window.location = 'index.php?act=xoabinhluancheck&' + idQry;
-            }   
+
+        .edit{
+            background-color: green;
         }
-    
-        function getIdCheck() {
-            var _id = []
-            var rows = document.querySelector("tbody").querySelectorAll("tr")
-            rows.forEach((row) => {
-                var checkBox = row.querySelector("td").querySelector("input")
-                if (checkBox.checked) {
-                    var id = Number(row.firstElementChild.nextElementSibling.innerHTML)
-                    _id.push(id)
-                }
-            })
-            return _id
+
+        .delete{
+            background-color: red;
         }
-    </script>
-</main>
+
+        .table-btn{
+            text-align: center;
+        }
+        .table-btn input{
+            background-color: #fff;
+            margin-top: 8px;
+            color: #000;
+        }
+    </style>
+</div>

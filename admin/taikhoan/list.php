@@ -1,128 +1,102 @@
-<main>
-    <div class="admin-header">
-        QUẢN LÝ TÀI KHOẢN
+<div class="row">
+    <div class="row-title">
+        <h2>DANH SÁCH TÀI KHOẢN</h2>
     </div>
-
-    <table class="list-loaihang-table" style="text-align: center;">
+    <table>
         <thead>
-            <tr class="list-loaihang-table_text-center">
-                <th style="width: 5%;"></th>
-                <th>Mã Khách Hàng </th>
-                <th>Username</th>
-                <th>Password</th>
-                <th>Email</th>
-                <th>Địa chỉ</th>
-                <th>Số điện thoại</th>
-                <th>Role</th>
+            <tr>
                 <th></th>
+                <th>Mã Tài Khoản</th>
+                <th>Tên Tài Khoản</th>
+                <th>Mật Khẩu</th>
+                <th>Email</th>
+                <th>Số Điện Thoại</th>
+                <th>Địa Chỉ</th>
+                <th>Vai Trò</th>
             </tr>
         </thead>
-
         <tbody>
-            <?php foreach ($listtk as $tk) : ?>
-                <?php extract($tk) ?>
-                <tr onclick="Check(this)">
-                    <td style="position: relative;"><input type="checkbox" onclick="event.stopPropagation()"></td>
-                    <td><?= $id ?></td>
-                    <td><?= $user ?></td>
-                    <td><?= $pass ?></td>
-                    <td><?= $email ?></td>
-                    <td><?= $address ?></td> 
-                    <td><?= $tel ?></td>
-                    <td>
-                        <select name="" id="" onchange="Role(<?= $id ?> ,this)">
-                            <option value="0" <?php if($role == 0 ) echo "selected" ?> onclick="event.stopPropagation()">0</option>
-                            <option value="1" <?php if($role == 1 ) echo "selected" ?> onclick="event.stopPropagation()">1</option>
-                        </select>
-                    </td>
-                    <td>
-                        <div class="form-loaihang-btns">
-                            <div class="form-loaihang-btn" onclick="Delete(<?= $id ?>)">Xoá</div>
-                        </div>
-                    </td>
-                </tr>
-            <?php endforeach; ?>
+            <?php
+                // include "../model/pdo.php";
+                foreach ($listtaikhoan as $taikhoan){
+                    extract($taikhoan);
+                    $suatk="index.php?act=suatk&id=".$id; 
+                    $xoatk="index.php?act=xoatk&id=".$id; 
+                    echo'<tr>
+                            <td style="text-align: center;"><input type="checkbox" name="" id=""></td>
+                            <td>'.$id.'</td>
+                            <td>'.$user.'</td>
+                            <td>'.$pass.'</td>
+                            <td>'.$email.'</td>
+                            <td>'.$tel.'</td>
+                            <td>'.$address.'</td>
+                            <td>'.$role.'</td>
+                            <td style="text-align: center;">
+                                <a href="'.$xoatk.'">
+                                    <input type="button" class="delete" value="Xóa">
+                                </a>
+                            </td>
+                        </tr>';
+                }
+            ?>
+
         </tbody>
     </table>
-    <div class="form-loaihang-btns">
-        <div class="form-loaihang-btn" onclick="CheckAll()">Chọn tất cả</div>
-        <div class="form-loaihang-btn" onclick="UnCheckAll()">Bỏ chọn tất cả</div>
-        <div class="form-loaihang-btn" onclick="DeleteCheck()">Xoá các mục chọn</div>
+    <div class="table-btn">
+        <input type="button" value="Chọn Tất Cả">
+        <input type="button" value="Bỏ Chọn Tất Cả">
+        <input type="button" value="Xóa Các Mục Đã Chọn">
+        <!-- <a href="index.php?act=adddm"><input type="button" value="Nhập Thêm"></a> -->
+
     </div>
-    </div>
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
-    <script>
-        function Delete(id) {
-            var submit = confirm("Bạn có muốn xoá danh mục này ?")
-            if (submit) window.location = 'index.php?act=xoakhachhang&id=' + id
-            event.stopPropagation()
+    <style>
+        /* Bảng Danh Sách Danh Muc */
+        table{
+            margin-top: 20px;
+            width: 100%;
         }
 
-        function Update(id) {
-            window.location = 'index.php?act=suakhachhang&id=' + id
-            event.stopPropagation()
+        table thead tr th{
+            background-color: #fff;
+            color: #000;
+            text-align: center;
+        }
+        table, th, td {
+            border: 1px solid #fff;
+            border-collapse: collapse;
+            padding: 8px 20px;
         }
 
-        function Check(x) {
-            var checkBox = x.querySelector("input")
-            if (checkBox.checked) {
-                checkBox.checked = false
-            } else {
-                checkBox.checked = true
-            }
+        input{
+            border: none;
+            border-radius: 8px;
+            padding: 8px 25px;
+            margin: 0px 10px;
+            color: #fff;
+            opacity: .8;
         }
 
-        function CheckAll() {
-            var rows = document.querySelector("tbody").querySelectorAll("tr")
-            rows.forEach((row) => {
-                var checkBox = row.querySelector("td").querySelector("input")
-                checkBox.checked = true
-            })
+        input:hover{
+            opacity: unset;
+            cursor: pointer;
         }
 
-        function UnCheckAll() {
-            var rows = document.querySelector("tbody").querySelectorAll("tr")
-            rows.forEach((row) => {
-                var checkBox = row.querySelector("td").querySelector("input")
-                checkBox.checked = false
-            })
+        .edit{
+            background-color: green;
+            /* padding-bottom: 10px; */
         }
 
-        function DeleteCheck() {
-            if (confirm("Bạn có muốn xoá các mục đã chọn ?")) {
-                var _id = getIdCheck()
-                var idQry = _id.map(function(el, idx) {
-                    return 'id[' + idx + ']=' + el;
-                }).join('&');
-                window.location = 'index.php?act=xoakhachhangcheck&' + idQry;
-            }
+        .delete{
+            background-color: red;
         }
 
-        function getIdCheck() {
-            var _id = []
-            var rows = document.querySelector("tbody").querySelectorAll("tr")
-            rows.forEach((row) => {
-                var checkBox = row.querySelector("td").querySelector("input")
-                if (checkBox.checked) {
-                    var id = Number(row.firstElementChild.nextElementSibling.innerHTML)
-                    _id.push(id)
-                }
-            })
-
-            return _id
+        .table-btn{
+            text-align: center;
         }
-
-        function Role(id, e) {
-            var r = e.value
-            // $(document).ready(function() {
-            //     $("button").click(function() {
-            //         $("#div1").load("demo_test.txt");
-            //     });
-            // });
-            window.location = `index.php?act=updaterole&id=${id}&role=${r}`;
+        .table-btn input{
+            background-color: #fff;
+            margin-top: 8px;
+            color: #000;
         }
-    </script>
-    <script>
-
-    </script>
-</main>
+    </style>
+</div>

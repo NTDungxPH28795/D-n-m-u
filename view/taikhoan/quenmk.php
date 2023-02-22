@@ -1,39 +1,34 @@
 <main>
-    <?php
-    if (isset($listthongbao)) {
-        foreach ($listthongbao as $thongbao) {
-            echo '<p style="color: red">' . $thongbao . '</p>';
-        }
-        // dd($listthongbao);
-    }
-    ?>
-    <div class="row column-3-1">
-        <div class="sidebar-item ">
-            <div class="sidebar_header">
-                Xác minh tài khoản
-            </div>
-            <div class="content form-content">
-                <form class="form-loaihang" action="index.php?act=quenmk" method="POST">
-                    <div class="form-loaihang-box">
-                        <div class="form-loaihang-text">Email</div>
-                        <input type="email" class="form-loaihang-input" name="email">
-                    </div>
-                    <div class="form-loaihang-box">
-                        <div class="form-loaihang-text">Tên đăng nhập</div>
-                        <input type="text" class="form-loaihang-input" name="user">
-                    </div>
-
-                    <div class="form-loaihang-btns">
-                        <input type="submit" class="form-loaihang-btn" value="Gửi" name="gui">
-                        <input type="reset" class="form-loaihang-btn" value="Nhập lại">
-                    </div>
-                </form>
-            </div>
-
+<div class="dangky">
+    <form action="index.php?act=quenmk" class="form-dangky" method="post">
+        <h4>Quên Mật Khẩu -.-</h4>
+        <p>Email:</p>
+        <input type="email" name="email">
+        <div class="form-dangky-btn">
+            <input type="submit" value="Gửi" name="guiemail">
+            <input type="reset" value="Nhập Lại">
         </div>
-
-        <?php
-        require "view/sidebar.php";
-        ?>
-    </div>
+    </form>
+    <p style="color: red;">
+    <?php
+        if(isset($thongbao)&&($thongbao!="")){
+            echo $thongbao;
+        }
+    ?>
+    </p>
+    
+</div>
+<!-- <div class="user">
+    <form class="signIn" action="#" method="post">
+        <p class="user-title"><i class="fa-solid fa-users-rectangle"></i></p>
+        <p style="font-weight: 500;">Tài Khoản</p>
+        <input type="text">
+        <p style="font-weight: 500;">Mật Khẩu</p>
+        <input type="password" name="" id="">
+        <button>Đăng Nhập</button>
+        <p class="not">Bạn chưa có tài khoản. Hãy đăng kí <a href="index.php?act=dangky">ở đây</a></p>
+    </form>
+</div> -->
 </main>
+
+<link rel="stylesheet" href="../css/style.css">
