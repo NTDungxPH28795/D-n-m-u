@@ -9,7 +9,7 @@
         <input type="text" name="tenloai" style="color: #000">
             <div class="row-btn">
                 <input type="submit" name="themmoi" value="Thêm Mới" >
-                <input type="reset" value="Nhập Lại" style="color: #000">
+                <input type="reset" value="Nhập Lại" style="color: white">
                 <a href="index.php?act=listdm"><input type="button" value="Danh Sách" style="color: #000"></a>
             </div>
             <?php

@@ -22,7 +22,7 @@
         <textarea name="mota" cols="30" rows="10"></textarea>
             <div class="row-btn">
                 <input type="submit" name="themmoi" value="Thêm Mới">
-                <input type="reset" value="Nhập Lại" style="color: #000">
+                <input type="reset" value="Nhập Lại" style="color: white">
                 <a href="index.php?act=listsp"><input type="button" value="Danh Sách" style="color: #000"></a>
             </div>
             <?php
